@@ -37,7 +37,7 @@ async function fetchTodos() {
   todos.value = res.data || [];
 }
 
-function handleSubmitTodo() {
+async function handleSubmitTodo() {
   if (!todoText.value) return;
 
   if (!edit.value) {
@@ -48,6 +48,11 @@ function handleSubmitTodo() {
     //       fetchTodos();
     //       todoText.value = "";
     //     });
+    await axios.post(`${baseURL}/todos`, {
+      title: todoText.value
+    });
+    fetchTodos();
+    todoText.value = "";
   }
   if (edit.value && currentTodo.value) {
     // supabase
@@ -60,10 +65,17 @@ function handleSubmitTodo() {
     //     edit.value = false;
     //     currentTodo.value = null;
     //   });
+    await axios.patch(`${baseURL}/todos/$(currentTodo.value.id)`,{
+      title: todoText.value,
+    });
+      fetchTodos();
+      todoText.value = "";
+      edit.value = false;
+      currentTodo.value = null;
   }
 }
 
-function handleDeleteTodo(id: number) {
+async function handleDeleteTodo(id: number) {
   // supabase
   //   .from("todos")
   //   .delete()
@@ -71,6 +83,8 @@ function handleDeleteTodo(id: number) {
   //   .then(() => {
   //     fetchTodos();
   //   });
+  await axios.delete(`${baseURL}/todos/${id}`);
+  fetchTodos();
 }
 
 function handleEditTodo(todo: Todo) {
