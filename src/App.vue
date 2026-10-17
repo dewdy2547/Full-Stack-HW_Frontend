@@ -65,13 +65,13 @@ async function handleSubmitTodo() {
     //     edit.value = false;
     //     currentTodo.value = null;
     //   });
-    await axios.patch(`${baseURL}/todos/$(currentTodo.value.id)`,{
+    await axios.patch(`${baseURL}/todos/$(currentTodo.value.id)`, {
       title: todoText.value,
     });
-      fetchTodos();
-      todoText.value = "";
-      edit.value = false;
-      currentTodo.value = null;
+    fetchTodos();
+    todoText.value = "";
+    edit.value = false;
+    currentTodo.value = null;
   }
 }
 
