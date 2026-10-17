@@ -3,7 +3,16 @@ import { ref } from "vue";
 import axios from "axios";
 
 // Define the type for a Todo item based on the database schema
-type Todo = any;
+type Todo = {
+  id: number;
+  title: string;
+  completed: boolean;
+  created_at: string;
+};
+
+//Import backend URL
+const baseURL = import.meta.env.VITE_BASE_URL;
+console.log(baseURL);
 
 // Create a reactive reference to hold the list of todos
 const todos = ref<Todo[]>([]);
@@ -11,7 +20,7 @@ const todoText = ref("");
 const edit = ref(false);
 const currentTodo = ref<Todo | null>(null);
 
-function fetchTodos() {
+async function fetchTodos() {
   // supabase
   //   .from("todos")
   //   .select("*")
@@ -19,9 +28,13 @@ function fetchTodos() {
   //     todos.value = res.data || [];
   //   });
 
-  axios.get("http://localhost:3000/todos").then((res) => {
-    console.log(res);
-  })
+  //axios.get(`${baseURL}/todos`).then((res) => {
+  //  console.log(res);
+  //})
+
+  const res = await axios.get(`${baseURL}/todos`);
+  console.log(res);
+  todos.value = res.data || [];
 }
 
 function handleSubmitTodo() {
