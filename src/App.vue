@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import axios from "axios";
 
 // Define the type for a Todo item based on the database schema
 type Todo = any;
@@ -17,6 +18,10 @@ function fetchTodos() {
   //   .then((res) => {
   //     todos.value = res.data || [];
   //   });
+
+  axios.get("http://localhost:3000/todos").then((res) => {
+    console.log(res);
+  })
 }
 
 function handleSubmitTodo() {
