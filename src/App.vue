@@ -32,7 +32,7 @@ async function handleSubmitTodo() {
   if (!todoText.value) return;
 
   if (!edit.value && currentTodo.value) {
-    await axios.post(`${baseURL}/${currentTodo.value.id}`, {
+    await axios.post(`${baseURL}/todos`, {
       title: todoText.value,
       description: todoDescription.value
     });
