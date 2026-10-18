@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import axios from "axios";
 
 // Define the type for a Todo item based on the database schema
@@ -31,7 +31,7 @@ async function fetchTodos() {
 async function handleSubmitTodo() {
   if (!todoText.value) return;
 
-  if (!edit.value && currentTodo.value) {
+  if (!edit.value) {
     await axios.post(`${baseURL}/todos`, {
       title: todoText.value,
       description: todoDescription.value
@@ -39,14 +39,15 @@ async function handleSubmitTodo() {
     fetchTodos();
     todoText.value = "";
     todoDescription.value = "";
-  }
-  if (edit.value && currentTodo.value) {
+  } else if (edit.value && currentTodo.value) {
+    // 2. กรณีแก้ไขข้อมูล (Update)
     await axios.patch(`${baseURL}/todos/${currentTodo.value.id}`, {
       title: todoText.value,
       description: todoDescription.value,
     });
     fetchTodos();
     todoText.value = "";
+    todoDescription.value = "";
     edit.value = false;
     currentTodo.value = null;
   }
