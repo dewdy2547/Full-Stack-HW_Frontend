@@ -41,8 +41,9 @@ async function handleSubmitTodo() {
     todoDescription.value = "";
   }
   if (edit.value && currentTodo.value) {
-    await axios.patch(`${baseURL}/todos/$(currentTodo.value.id)`, {
+    await axios.patch(`${baseURL}/todos/${currentTodo.value.id}`, {
       title: todoText.value,
+      description: todoDescription.value,
     });
     fetchTodos();
     todoText.value = "";
